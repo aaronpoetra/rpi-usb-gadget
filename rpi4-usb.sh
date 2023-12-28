@@ -38,7 +38,7 @@ teeconfirm() {
 ##### Actual work #####
 
 cat << EOF
-This script will modify '/boot/config.txt', '/boot/cmdline.txt' and other files.
+This script will modify '/boot/firmware/config.txt', '/boot/firmware/cmdline.txt' and other files.
 Warning, It might brick your device!
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -53,15 +53,15 @@ Continue with modifications?
 EOF
 ! confirm && exit
 
-teeconfirm "dtoverlay=dwc2" "/boot/config.txt"
+teeconfirm "dtoverlay=dwc2" "/boot/firmware/config.txt"
 
-if ! $(grep -q modules-load=dwc2 /boot/cmdline.txt) ; then
+if ! $(grep -q modules-load=dwc2 /boot/firmware/cmdline.txt) ; then
     echo
-    echo "Add the line modules-load=dwc2 to /boot/cmdline.txt"
+    echo "Add the line modules-load=dwc2 to /boot/firmware/cmdline.txt"
     if ! confirm ; then
         exit
     fi
-    sudo sed -i '${s/$/ modules-load=dwc2/}' /boot/cmdline.txt
+    sudo sed -i '${s/$/ modules-load=dwc2/}' /boot/firmware/cmdline.txt
 fi
 
 teeconfirm "libcomposite" "/etc/modules"
